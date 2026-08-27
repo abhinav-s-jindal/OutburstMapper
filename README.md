@@ -77,10 +77,11 @@ OutburstMapper/
     and El-Maarry et al. 2016
     ([doi:10.1051/0004-6361/201628634](https://doi.org/10.1051/0004-6361/201628634)).
   - `JB_OB_Locs.png` — the outburst source-location map of Vincent et al.
-    (2016); its numbered markers correspond to the `roi<N>_ob_loc_jb<M>`
-    outburst locations in the shipped session.
+     2016 ([doi:10.1093/mnras/stw2409](https://doi.org/10.1093/mnras/stw2409));
+     its numbered markers correspond to the `roi<N>_ob_loc_jb<M>`
+     outburst locations in the shipped session.
 - The SPICE kernels can alternatively be fetched from ESA's SPICE
-  repository (<https://spiftp.esac.esa.int/data/SPICE/ROSETTA/>); the app
+  repository (<https://naif.jpl.nasa.gov/pub/naif/pds/data/ro_rl-e_m_a_c-spice-6-v1.0/rossp_1000/>); the app
   expects the metakernel at `ROSETTA/kernels/mk/ROS_OPS.TM` next to the
   script, and rewrites the metakernel's `PATH_VALUES` internally, so no
   manual path editing is needed.
@@ -212,22 +213,6 @@ returns there.
 ### Screenshots
 
 **Save screenshot…** writes the current 3D view to a PNG.
-
-## Publishing the data archive on Zenodo (maintainers)
-
-1. Collect the data directories/files listed in [Data](#data) — the `.obj`
-   model, `ROSETTA/` kernel set, `maps/`, and `ROI_data/` (with each ROI's
-   `outburst_img/` and `surface_img/` frames) — into a single zip.
-2. On <https://zenodo.org>, create a new upload, attach the zip, and fill
-   in the metadata (title, authors, description, license, and a link to
-   this repository). Credit the adapted map sources — El-Maarry et al.
-   (2015, 2016) for the region map and Vincent et al. (2016) for the
-   outburst-location map — in the record's description.
-3. Use "Reserve DOI" to get the DOI before publishing, and put it in this
-   README's [Data](#data) section; publish, then commit the README update.
-4. New versions of the data (e.g. an updated session or new imagery) go on
-   the same Zenodo record via "New version", which keeps a
-   version-independent concept DOI.
 
 ## License
 
