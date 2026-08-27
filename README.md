@@ -13,6 +13,13 @@ regions directly on the surface. The tool itself is generic — any
 triangulated shape model (`.obj`/`.ply`/`.stl`/`.vtk`) can be loaded — but
 the SPICE camera features are wired to the Rosetta mission kernels.
 
+This tool and its data archive are companions to the paper *"How the Comet
+Crumbles: Mass Wasting Drives Outbursts on Comet
+67P/Churyumov-Gerasimenko"* (DOI to be added upon publication): the
+archived ROI session contains every outburst footprint and surface-change
+region mapped for that work, and the imagery on which the boundaries were
+drawn.
+
 Built with PyVista/VTK and Qt (PyQt5).
 
 ## Installation
@@ -43,32 +50,38 @@ large for GitHub and are archived on Zenodo:
 
 > **DOI: [10.5281/zenodo.22133944](https://doi.org/10.5281/zenodo.22133944)**
 
-Download the archive and unpack it into the repository root so the layout
-becomes:
+Download the archive and unpack it into the repository root as a `data/`
+folder, so the layout becomes:
 
 ```
 OutburstMapper/
 ├── outburst_mapper.py
-├── sessions/
-│   └── 67P_outburst_session.json     # our mapped ROIs (in this repo)
-├── cg-dlr_spg-shap7-v1.0_125Kfacets.obj   # 67P shape model (Zenodo)
-├── ROSETTA/                               # Rosetta SPICE kernel set (Zenodo)
-│   └── kernels/mk/ROS_OPS.TM              #   metakernel, auto-loaded
-├── maps/                                  # equirectangular maps (Zenodo)
-└── ROI_data/                              # per-ROI mission imagery (Zenodo)
-    ├── roi1/
-    │   ├── outburst_img/    # frames showing this ROI's outburst(s)
-    │   └── surface_img/     # frames showing the surface change
-    ├── roi2/
-    │   └── ...
-    └── ...
+└── data/                        # ← the unpacked Zenodo archive
+    ├── sessions/
+    │   └── 67P_outburst_session.json    # our mapped ROIs & outburst footprints
+    ├── shape_model/
+    │   └── cg-dlr_spg-shap7-v1.0_125Kfacets.obj   # SHAP7 67P shape model
+    ├── spice_kernels/
+    │   └── kernels/mk/ROS_OPS.TM        # Rosetta SPICE kernels (metakernel)
+    ├── maps/                            # equirectangular maps
+    └── ROI_data/                        # per-ROI mission imagery
+        ├── roi1/
+        │   ├── outburst_img/    # an image showing this ROI's outburst
+        │   └── surface_img/     # an image showing the surface change
+        ├── roi2/
+        │   └── ...
+        └── ...
 ```
 
-- **`ROI_data/roi<N>/outburst_img/`** holds the OSIRIS/NAVCAM frames
-  (`.cub`, `.IMG`/`.LBL`) in which ROI `<N>`'s outburst is visible.
-- **`ROI_data/roi<N>/surface_img/`** holds the frames documenting the
-  associated surface change.
-- **`maps/`** holds two equirectangular maps ready to drape (see
+- **`data/sessions/`** holds the ROI session: load it in the app (see
+  [Loading the ROI session](#loading-the-roi-session)) to restore every
+  outburst footprint and surface-change boundary from the paper.
+- **`data/ROI_data/roi<N>/`** holds, for each ROI, one representative
+  OSIRIS/NAVCAM image of the outburst (`outburst_img/`) and one of the
+  resulting surface change (`surface_img/`) — the frames on which that
+  ROI's boundary was drawn, so the basis of each mapping can be inspected
+  directly (`.cub`, `.IMG`/`.LBL`; open them via **Load image…**).
+- **`data/maps/`** holds two equirectangular maps ready to drape (see
   [Draping an equirectangular map](#draping-an-equirectangular-map)):
   - `67P_regions_equirectangular.jpg` — the geomorphological region map of
     67P, from El-Maarry et al. 2015
@@ -79,11 +92,12 @@ OutburstMapper/
      2016 ([doi:10.1093/mnras/stw2409](https://doi.org/10.1093/mnras/stw2409));
      its numbered markers correspond to the `roi<N>_ob_loc_jb<M>`
      outburst locations in the shipped session.
-- The SPICE kernels can alternatively be fetched from ESA's SPICE
-  repository (<https://naif.jpl.nasa.gov/pub/naif/pds/data/ro_rl-e_m_a_c-spice-6-v1.0/rossp_1000/>); the app
-  expects the metakernel at `ROSETTA/kernels/mk/ROS_OPS.TM` next to the
-  script, and rewrites the metakernel's `PATH_VALUES` internally, so no
-  manual path editing is needed.
+- The SPICE kernels can alternatively be fetched from the NAIF archive
+  (<https://naif.jpl.nasa.gov/pub/naif/pds/data/ro_rl-e_m_a_c-spice-6-v1.0/rossp_1000/>); the app
+  expects the metakernel at `data/spice_kernels/kernels/mk/ROS_OPS.TM`
+  next to the script, and rewrites the metakernel's `PATH_VALUES` to an
+  absolute path internally, so no manual editing of the kernel files is
+  needed.
 
 ## Running
 
@@ -92,19 +106,18 @@ python outburst_mapper.py                # auto-loads the default 67P model
 python outburst_mapper.py my_model.obj   # or any other shape model
 ```
 
-On startup the app auto-loads `cg-dlr_spg-shap7-v1.0_125Kfacets.obj` and
-the SPICE metakernel if both sit next to the script (i.e., after unpacking
-the Zenodo archive). Without them you can still load any model via **Load
-model…** and any metakernel via **Load SPICE kernels…**.
+On startup the app auto-loads the shape model and the SPICE metakernel
+from the unpacked `data/` folder. Without it you can still load any model
+via **Load model…** and any metakernel via **Load SPICE kernels…**.
 
 ## Loading the ROI session
 
-Our full set of mapped outburst locations and change regions ships in this
-repository: press **Load session…** and pick
-`sessions/67P_outburst_session.json`. The session restores every ROI
+Our full set of mapped outburst locations and change regions comes with
+the data archive: press **Load session…** and pick
+`data/sessions/67P_outburst_session.json`. The session restores every ROI
 (name, painted facets, colour, border width, list order, visibility) onto
 the model it was painted on — the stored model path resolves automatically
-to the model file next to the script.
+to the model file in `data/shape_model/`.
 
 Things to know once a session is loaded:
 
@@ -157,7 +170,7 @@ view.
 **Load image (.cub/.IMG/.LBL)…** opens an ISIS cube or a raw PDS3
 OSIRIS/NAVCAM frame (open the `.LBL` for detached-label NAVCAM products)
 in a panel beside the 3D view — e.g. any frame from
-`ROI_data/roi<N>/outburst_img/`. The panel has percentile contrast
+`data/ROI_data/roi<N>/outburst_img/`. The panel has percentile contrast
 stretching, a drag-a-box stretch tool, and wheel zoom. **Close image**
 returns to the single-panel view.
 
@@ -182,7 +195,7 @@ texture doesn't wrap onto the far side or across shadowing terrain.
 
 **Load map…** wraps a whole-body lat/lon map onto the model by
 planetocentric latitude/longitude, in the same frame as the lat/lon lookup
-box. The two maps shipped in the archive's `maps/` folder both use the
+box. The two maps shipped in the archive's `data/maps/` folder both use the
 app's default convention — 0° at the central column, east-positive, +90°
 at the top row — so they drape correctly with no adjustment:
 

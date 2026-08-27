@@ -90,8 +90,9 @@ SPICE_COMET_FRAME = "67P/C-G_CK"
 SPICE_COMET_NAME = "CHURYUMOV-GERASIMENKO"
 SPICE_SC_NAME = "ROSETTA"
 
-# Auto-loaded on startup (if present next to this script) when no model
-# path is given on the command line; "Load model…" still opens anything.
+# Auto-loaded on startup (from data/shape_model/ next to this script, as
+# unpacked from the data archive) when no model path is given on the
+# command line; "Load model…" still opens anything.
 DEFAULT_MODEL = "cg-dlr_spg-shap7-v1.0_125Kfacets.obj"
 # ======================================================================
 # Qt helpers
@@ -1359,7 +1360,7 @@ class ROIManager(QtWidgets.QMainWindow):
         row2.addWidget(b_save); row2.addWidget(b_open)
         panel.addLayout(row2)
         self.lbl_autosave = QtWidgets.QLabel(
-            "New ROIs auto-save the session (to ROI_data/ by default).")
+            "New ROIs auto-save the session (to data/sessions/ by default).")
         self.lbl_autosave.setWordWrap(True)
         panel.addWidget(self.lbl_autosave)
 
@@ -1445,7 +1446,7 @@ class ROIManager(QtWidgets.QMainWindow):
         self.btn_undo.setEnabled(False)
         self._session_path = None  # a new model starts a fresh session file
         self.lbl_autosave.setText(
-            "New ROIs auto-save the session (to ROI_data/ by default).")
+            "New ROIs auto-save the session (to data/sessions/ by default).")
         self.plotter.clear()
         self._latlon_marker_actor = None
         self._probe_actor = None
@@ -1663,7 +1664,8 @@ class ROIManager(QtWidgets.QMainWindow):
     # ------------------------------------------------------------------
     def _auto_load_spice(self):
         here = os.path.dirname(os.path.abspath(__file__))
-        candidate = os.path.join(here, "ROSETTA", "kernels", "mk", "ROS_OPS.TM")
+        candidate = os.path.join(here, "data", "spice_kernels", "kernels",
+                                 "mk", "ROS_OPS.TM")
         if os.path.isfile(candidate):
             self.load_spice_kernels(candidate)
 
@@ -2171,7 +2173,7 @@ class ROIManager(QtWidgets.QMainWindow):
                 self, "No model", "Load a shape model first.")
             return
         here = os.path.dirname(os.path.abspath(__file__))
-        maps_dir = os.path.join(here, "maps")
+        maps_dir = os.path.join(here, "data", "maps")
         path, _ = QFileDialog.getOpenFileName(
             self, "Load equirectangular map",
             maps_dir if os.path.isdir(maps_dir) else "",
@@ -2746,7 +2748,7 @@ class ROIManager(QtWidgets.QMainWindow):
 
     def _default_session_path(self):
         here = os.path.dirname(os.path.abspath(__file__))
-        data_dir = os.path.join(here, "ROI_data")
+        data_dir = os.path.join(here, "data", "sessions")
         os.makedirs(data_dir, exist_ok=True)
         base = (os.path.splitext(os.path.basename(self.model_path))[0]
                 if self.model_path else "session")
@@ -2793,13 +2795,18 @@ class ROIManager(QtWidgets.QMainWindow):
             self.load_model(model, transform=data.get("transform"))
         except Exception:
             # a session written on another machine stores that machine's
-            # path (or a bare filename): try the same filename next to this
-            # script before asking
+            # path (or a bare filename): look in the data archive's
+            # shape_model folder, then next to this script, before asking
             here = os.path.dirname(os.path.abspath(__file__))
-            fallback = os.path.join(here, os.path.basename(str(model)))
-            try:
-                self.load_model(fallback, transform=data.get("transform"))
-            except Exception:
+            base = os.path.basename(str(model))
+            for fallback in (os.path.join(here, "data", "shape_model", base),
+                             os.path.join(here, base)):
+                try:
+                    self.load_model(fallback, transform=data.get("transform"))
+                    break
+                except Exception:
+                    continue
+            else:
                 QMessageBox.information(
                     self, "Model not found",
                     f"Couldn't open:\n{model}\nPlease locate the model file.")
@@ -2851,8 +2858,13 @@ def main():
         model = sys.argv[1]
     else:
         here = os.path.dirname(os.path.abspath(__file__))
-        candidate = os.path.join(here, DEFAULT_MODEL)
-        model = candidate if os.path.isfile(candidate) else None
+        model = None
+        for candidate in (os.path.join(here, "data", "shape_model",
+                                       DEFAULT_MODEL),
+                          os.path.join(here, DEFAULT_MODEL)):
+            if os.path.isfile(candidate):
+                model = candidate
+                break
     win = ROIManager(model)
     win.show()
     sys.exit(app.exec_())

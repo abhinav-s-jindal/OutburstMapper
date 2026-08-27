@@ -3,16 +3,11 @@ __pycache__/
 *.pyc
 .venv/
 
+# macOS
+.DS_Store
+
 # outputs
 *.png
 
-# large data -- fetched from the Zenodo archive (see README), not tracked
-*.obj
-*.ply
-*.stl
-*.vtk
-*.cub
-*.IMG
-*.LBL
-ROSETTA/
-ROI_data/
+# the data archive -- fetched from Zenodo (see README), not tracked in git
+data/
