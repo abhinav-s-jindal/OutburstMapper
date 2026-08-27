@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# outputs
+*.png
+
+# large data -- fetched from the Zenodo archive (see README), not tracked
+*.obj
+*.ply
+*.stl
+*.vtk
+*.cub
+*.IMG
+*.LBL
+ROSETTA/
+ROI_data/
