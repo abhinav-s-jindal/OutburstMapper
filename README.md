@@ -1,5 +1,7 @@
 # OutburstMapper
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22134263.svg)](https://doi.org/10.5281/zenodo.22134263)
+
 An interactive 3D tool for mapping cometary outburst source locations and
 surface-change regions of interest (ROIs) onto a comet shape model.
 
@@ -225,6 +227,17 @@ returns there.
 ### Screenshots
 
 **Save screenshot…** writes the current 3D view to a PNG.
+
+## Citing
+
+If you use OutburstMapper or the archived data, please cite:
+
+- **The paper:** *How the Comet Crumbles: Mass Wasting Drives Outbursts on
+  Comet 67P/Churyumov-Gerasimenko* (DOI to be added upon publication).
+- **The software:** OutburstMapper v1.0,
+  [doi:10.5281/zenodo.22134263](https://doi.org/10.5281/zenodo.22134263).
+- **The data archive:**
+  [doi:10.5281/zenodo.22133944](https://doi.org/10.5281/zenodo.22133944).
 
 ## License
 
