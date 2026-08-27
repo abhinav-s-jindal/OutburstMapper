@@ -69,6 +69,16 @@ OutburstMapper/
   (`.cub`, `.IMG`/`.LBL`) in which ROI `<N>`'s outburst is visible.
 - **`ROI_data/roi<N>/surface_img/`** holds the frames documenting the
   associated surface change.
+- **`maps/`** holds two equirectangular maps ready to drape (see
+  [Draping an equirectangular map](#draping-an-equirectangular-map)):
+  - `67P_regions_equirectangular.jpg` — the geomorphological region map of
+    67P, from El-Maarry et al. 2015
+    ([doi:10.1051/0004-6361/201525723](https://doi.org/10.1051/0004-6361/201525723))
+    and El-Maarry et al. 2016
+    ([doi:10.1051/0004-6361/201628634](https://doi.org/10.1051/0004-6361/201628634)).
+  - `JB_OB_Locs.png` — the outburst source-location map of Vincent et al.
+    (2016); its numbered markers correspond to the `roi<N>_ob_loc_jb<M>`
+    outburst locations in the shipped session.
 - The SPICE kernels can alternatively be fetched from ESA's SPICE
   repository (<https://spiftp.esac.esa.int/data/SPICE/ROSETTA/>); the app
   expects the metakernel at `ROSETTA/kernels/mk/ROS_OPS.TM` next to the
@@ -170,11 +180,26 @@ texture doesn't wrap onto the far side or across shadowing terrain.
 
 ### Draping an equirectangular map
 
-**Load map…** wraps a whole-body lat/lon map (e.g. a region map) onto the
-model. The default convention is 0° at the central column, east-positive,
-+90° at the top row; **Lon at centre** and **West-positive** re-drape maps
-drawn to other conventions. The drape renders under ROI outlines and paint
-strokes.
+**Load map…** wraps a whole-body lat/lon map onto the model by
+planetocentric latitude/longitude, in the same frame as the lat/lon lookup
+box. The two maps shipped in the archive's `maps/` folder both use the
+app's default convention — 0° at the central column, east-positive, +90°
+at the top row — so they drape correctly with no adjustment:
+
+- **`67P_regions_equirectangular.jpg`** — the geomorphological region map
+  (El-Maarry et al. 2015, 2016): drape it to read off which named region
+  (Imhotep, Ma'at, Anhur, …) an ROI or outburst location falls in.
+- **`JB_OB_Locs.png`** — the Vincent et al. (2016) outburst
+  source-location map: its numbered markers line up with the
+  `roi<N>_ob_loc_jb<M>` ROIs in the shipped session, useful for
+  cross-checking a mapped location against the original survey.
+
+For maps drawn to another convention, **Lon at centre** shifts the central
+meridian (use 180 for a map whose left edge is 0°) and **West-positive**
+flips the longitude direction; both re-drape immediately. The drape
+renders *under* ROI outlines and paint strokes, so you can paint straight
+on top of it, and it is dropped when a different shape model loads.
+**Show map** toggles it; **Remove map** discards it.
 
 ### Finding and probing locations
 
@@ -195,7 +220,9 @@ returns there.
    `outburst_img/` and `surface_img/` frames) — into a single zip.
 2. On <https://zenodo.org>, create a new upload, attach the zip, and fill
    in the metadata (title, authors, description, license, and a link to
-   this repository).
+   this repository). Credit the adapted map sources — El-Maarry et al.
+   (2015, 2016) for the region map and Vincent et al. (2016) for the
+   outburst-location map — in the record's description.
 3. Use "Reserve DOI" to get the DOI before publishing, and put it in this
    README's [Data](#data) section; publish, then commit the README update.
 4. New versions of the data (e.g. an updated session or new imagery) go on
