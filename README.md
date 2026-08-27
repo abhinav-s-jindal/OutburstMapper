@@ -20,7 +20,7 @@ Built with PyVista/VTK and Qt (PyQt5).
 Requires Python 3.10+.
 
 ```bash
-git clone <this repository>
+git clone https://github.com/abhinav-s-jindal/OutburstMapper.git
 cd OutburstMapper
 python3 -m venv .venv
 source .venv/bin/activate
@@ -41,8 +41,7 @@ bare `import vtk`. Environments that carry both PyQt5 (Qt5) and PySide6
 The shape model, SPICE kernels, mission images, and our ROI session are too
 large for GitHub and are archived on Zenodo:
 
-> **DOI: `10.5281/zenodo.XXXXXXX`** *(placeholder — update after the record
-> is published)*
+> **DOI: [10.5281/zenodo.22133944](https://doi.org/10.5281/zenodo.22133944)**
 
 Download the archive and unpack it into the repository root so the layout
 becomes:
