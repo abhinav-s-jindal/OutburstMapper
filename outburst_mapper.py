@@ -1686,8 +1686,16 @@ class ROIManager(QtWidgets.QMainWindow):
             # location), so rewrite it to an absolute path -- otherwise
             # loading only works if the app happens to be launched with
             # the mk/ folder as the current directory.
+            # SPICE limits each string element to 80 characters. Continue
+            # long paths with '+' so deeply nested installs are not truncated.
+            path_chunks = [kernels_root[i:i + 79]
+                           for i in range(0, len(kernels_root), 79)]
+            path_values = ",\n    ".join(
+                "'" + chunk
+                + ("+" if i < len(path_chunks) - 1 else "") + "'"
+                for i, chunk in enumerate(path_chunks))
             text = re.sub(r"PATH_VALUES\s*=\s*\(\s*'[^']*'\s*\)",
-                          f"PATH_VALUES = ( '{kernels_root}' )", text)
+                          lambda _: f"PATH_VALUES = ( {path_values} )", text)
             fd, tmp_path = tempfile.mkstemp(suffix=".tm")
             try:
                 with os.fdopen(fd, "w") as f:
