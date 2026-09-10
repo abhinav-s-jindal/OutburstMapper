@@ -26,19 +26,27 @@ Built with PyVista/VTK and Qt (PyQt5).
 
 ## Installation
 
-Requires Python 3.10+.
+The pinned dependencies in [requirements.txt](requirements.txt) require
+**Python 3.11 or newer**. The author's working environment uses
+**Python 3.13.9** with the package versions listed in that file.
+Other Python/package combinations have not been verified here.
+
+The requirements file lists the directly imported third-party packages,
+including VTK (`vtkmodules` in the source). Their dependencies are installed
+automatically by pip.
 
 ```bash
 git clone https://github.com/abhinav-s-jindal/OutburstMapper.git
 cd OutburstMapper
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
-If a pinned version fails to install on your platform, drop the `==version`
-pins in `requirements.txt` and re-run — the tool does not depend on exact
-patch versions.
+Use Python 3.13 to reproduce the author's Python series. If a pinned
+package cannot be installed, first check that the active interpreter is
+Python 3.11+ (`python --version`). Changing package pins creates a different
+environment that should be checked before use.
 
 **macOS note:** if you edit the code, always import VTK classes through
 narrow `vtkmodules.*` submodules (as the existing code does), never via a
