@@ -44,6 +44,8 @@ pseudocode, and assumptions and limitations.
 
 ## Installation
 
+This software has been run and tested on macOS 26.5.1.
+
 The pinned dependencies in [requirements.txt](requirements.txt) require
 **Python 3.11 or newer**. The author's working environment uses
 **Python 3.13.9** with the package versions listed in that file.
