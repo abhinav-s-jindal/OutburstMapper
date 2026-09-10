@@ -24,6 +24,12 @@ drawn.
 
 Built with PyVista/VTK and Qt (PyQt5).
 
+## Algorithm details
+
+See [ALGORITHMS.md](ALGORITHMS.md) for the camera geometry and projection
+equations, ROI painting algorithm, image handling, session contents,
+pseudocode, and assumptions and limitations.
+
 ## Installation
 
 The pinned dependencies in [requirements.txt](requirements.txt) require
