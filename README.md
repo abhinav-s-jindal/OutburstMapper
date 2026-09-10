@@ -24,6 +24,18 @@ drawn.
 
 Built with PyVista/VTK and Qt (PyQt5).
 
+## Demo
+
+Walk through loading the saved ROI session, opening outburst and surface
+images, and inspecting their existing boundaries in spacecraft view with
+linked zoom. The example uses the August 1, 2015 outburst associated with
+ROI 8.
+
+[Read the illustrated walkthrough and button guide](demo/README.md) ·
+[Open the eight-page PDF](demo/OutburstMapper-demo.pdf)
+
+[![August 1, 2015 outburst image beside the shape model with the ROI 8 boundaries visible](demo/figures/outburst-view.png)](demo/README.md)
+
 ## Algorithm details
 
 See [ALGORITHMS.md](ALGORITHMS.md) for the camera geometry and projection

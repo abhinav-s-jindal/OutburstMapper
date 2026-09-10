@@ -12,3 +12,6 @@ __pycache__/
 # the data archive -- fetched from Zenodo (see README), not tracked in git
 data/
 *.zip
+
+# Published demo figures
+!demo/figures/*.png

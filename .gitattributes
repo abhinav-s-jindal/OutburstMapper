@@ -1,0 +1,3 @@
+
+# Keep the demo PDF as a binary document.
+*.pdf binary
