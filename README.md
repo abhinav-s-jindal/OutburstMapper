@@ -36,6 +36,8 @@ ROI 8.
 
 [![August 1, 2015 outburst image beside the shape model with the ROI 8 boundaries visible](demo/figures/outburst-view.png)](demo/README.md)
 
+**Demo time:** The illustrated demo is expected to take less than 30 minutes on a typical desktop computer, including user interaction.
+
 ## Algorithm details
 
 See [ALGORITHMS.md](ALGORITHMS.md) for the camera geometry and projection
@@ -45,6 +47,10 @@ pseudocode, and assumptions and limitations.
 ## Installation
 
 This software has been run and tested on macOS 26.5.1.
+
+**Hardware:** No special hardware is required.
+
+**Installation time:** Estimated installation time is less than 1 minute once the required dependencies are installed, excluding software and data downloads.
 
 The pinned dependencies in [requirements.txt](requirements.txt) require
 **Python 3.11 or newer**. The author's working environment uses
